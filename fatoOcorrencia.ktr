@@ -100,11 +100,11 @@
     </attributes>
   </connection>
   <connection>
-    <name>stg_bd_ocorrencia</name>
+    <name>bd_stg_ocorrencia</name>
     <server>192.168.56.1</server>
     <type>MYSQL</type>
     <access>Native</access>
-    <database>stg_bd_ocorrencia</database>
+    <database>bd_stg_ocorrencia</database>
     <port>3306</port>
     <username>dba</username>
     <password>Encrypted 2be98afc86aa7f2e4cb79ce7dc781bed6</password>
@@ -127,33 +127,18 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>stg_aeronave_input</from><to>aeronave_sort</to><enabled>Y</enabled> </hop>
   <hop> <from>stg_ocorrencia _input</from><to>ocorrencia_sort</to><enabled>Y</enabled> </hop>
-  <hop> <from>stg_fator_contribuinte_input</from><to>Sort rows 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>aeronave_sort</from><to>Merge Join</to><enabled>Y</enabled> </hop>
-  <hop> <from>ocorrencia_sort</from><to>Merge Join</to><enabled>Y</enabled> </hop>
-  <hop> <from>Merge Join</from><to>Select values</to><enabled>Y</enabled> </hop>
-  <hop> <from>Select values</from><to>stg_aeronave_lookup</to><enabled>Y</enabled> </hop>
-  <hop> <from>stg_aeronave_lookup</from><to>dim_aerodromo_lookup</to><enabled>Y</enabled> </hop>
-  <hop> <from>dim_aerodromo_lookup</from><to>dim_categoria_voo_lookup</to><enabled>Y</enabled> </hop>
-  <hop> <from>dim_categoria_voo_lookup</from><to>dim_classificacao_lookup</to><enabled>Y</enabled> </hop>
-  <hop> <from>dim_classificacao_lookup</from><to>dim_equipamento_lookup</to><enabled>Y</enabled> </hop>
-  <hop> <from>dim_equipamento_lookup</from><to>dim_faixa_de_fatalidade_lookup</to><enabled>Y</enabled> </hop>
-  <hop> <from>dim_faixa_qtd_motores_lookup</from><to>dim_fase_operacao_lookup</to><enabled>Y</enabled> </hop>
-  <hop> <from>dim_fase_operacao_lookup</from><to>dim_localizacao_lookup</to><enabled>Y</enabled> </hop>
-  <hop> <from>dim_localizacao_lookup</from><to>dim_nivel_dano_lookup</to><enabled>Y</enabled> </hop>
-  <hop> <from>dim_tipo_motor_lookup</from><to>Select values 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Select values 2</from><to>Merge Join 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort rows 3</from><to>Merge Join 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Merge Join 2</from><to>dim_fator_contribuinte_lookup</to><enabled>Y</enabled> </hop>
-  <hop> <from>dim_fator_contribuinte_lookup</from><to>Select values 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>dim_faixa_de_fatalidade_lookup</from><to>dim_faixa_de_horario_lookup</to><enabled>Y</enabled> </hop>
-  <hop> <from>dim_faixa_de_horario_lookup</from><to>dim_faixa_qtd_motores_lookup</to><enabled>Y</enabled> </hop>
-  <hop> <from>Select values 3</from><to>Sort rows</to><enabled>Y</enabled> </hop>
+  <hop> <from>Select values</from><to>dim_tipo_ocorrencia</to><enabled>Y</enabled> </hop>
+  <hop> <from>dim_faixa_de_horario_lookup</from><to>dim_tempo_lookup</to><enabled>Y</enabled> </hop>
+  <hop> <from>dim_tempo_lookup</from><to>dim_aerodromo_lookup</to><enabled>Y</enabled> </hop>
+  <hop> <from>dim_aerodromo_lookup</from><to>Select values 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Select values 2</from><to>Sort rows</to><enabled>Y</enabled> </hop>
+  <hop> <from>ocorrencia_sort</from><to>Select values</to><enabled>Y</enabled> </hop>
+  <hop> <from>dim_localizacao_lookup</from><to>dim_faixa_de_horario_lookup</to><enabled>Y</enabled> </hop>
   <hop> <from>Sort rows</from><to>Group by</to><enabled>Y</enabled> </hop>
+  <hop> <from>dim_tipo_ocorrencia</from><to>dim_classificacao_lookup</to><enabled>Y</enabled> </hop>
+  <hop> <from>dim_classificacao_lookup</from><to>dim_localizacao_lookup</to><enabled>Y</enabled> </hop>
   <hop> <from>Group by</from><to>Insert &#x2f; Update</to><enabled>Y</enabled> </hop>
-  <hop> <from>dim_nivel_dano_lookup</from><to>dim_tempo_lookup</to><enabled>Y</enabled> </hop>
-  <hop> <from>dim_tempo_lookup</from><to>dim_tipo_motor_lookup</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Group by</name>
@@ -176,51 +161,27 @@
       <give_back_row>N</give_back_row>
       <group>
         <field>
-          <name>dim_aeronave_sk_aeronave</name>
+          <name>sk_tipo_ocorrencia</name>
         </field>
         <field>
-          <name>dim_aerodromo_sk_aerodromo</name>
+          <name>sk_localizacao</name>
         </field>
         <field>
-          <name>dim_categoria_voo_sk_categoria_voo</name>
+          <name>sk_faixa_horario</name>
         </field>
         <field>
-          <name>dim_classificacao_sk_ocorrencia</name>
+          <name>sk_tempo</name>
         </field>
         <field>
-          <name>dim_equipamento_sk_equipamento</name>
+          <name>sk_aerodromo</name>
         </field>
         <field>
-          <name>dim_faixa_de_fatalidade_sk_faixa_de_fatalidade</name>
-        </field>
-        <field>
-          <name>dim_faixa_de_horario_sk_faixa_horario</name>
-        </field>
-        <field>
-          <name>dim_faixa_qtd_motores_sk_faixa_qtd_motores</name>
-        </field>
-        <field>
-          <name>dim_fase_operacao_sk_fase_operacao</name>
-        </field>
-        <field>
-          <name>dim_localizacao_sk_uf</name>
-        </field>
-        <field>
-          <name>dim_nivel_dano_sk_nivel_dano</name>
-        </field>
-        <field>
-          <name>dim_tempo_sk_tempo</name>
-        </field>
-        <field>
-          <name>dim_tipo_motor_sk_tipo_motor</name>
-        </field>
-        <field>
-          <name>dim_fator_contribuinte_sk_fator</name>
+          <name>sk_classificacao</name>
         </field>
       </group>
       <fields>
         <field>
-          <aggregate>quantidade_ocorrencia</aggregate>
+          <aggregate>qtd_ocorrencia</aggregate>
           <subject/>
           <type>COUNT_ANY</type>
           <valuefield/>
@@ -228,8 +189,8 @@
       </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>896</xloc>
-      <yloc>332</yloc>
+      <xloc>247</xloc>
+      <yloc>346</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -252,231 +213,81 @@
       <schema/>
       <table>fato_ocorrencia</table>
       <key>
-        <name>dim_aeronave_sk_aeronave</name>
-        <field>dim_aeronave_sk_aeronave</field>
+        <name>sk_tipo_ocorrencia</name>
+        <field>sk_tipo_ocorrencia</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
-        <name>dim_equipamento_sk_equipamento</name>
-        <field>dim_equipamento_sk_equipamento</field>
+        <name>sk_localizacao</name>
+        <field>sk_localizacao</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
-        <name>dim_fase_operacao_sk_fase_operacao</name>
-        <field>dim_fase_operacao_sk_fase_operacao</field>
+        <name>sk_faixa_horario</name>
+        <field>sk_faixa_horario</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
-        <name>dim_fator_contribuinte_sk_fator</name>
-        <field>dim_fator_contribuinte_sk_fator</field>
+        <name>sk_tempo</name>
+        <field>sk_tempo</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
-        <name>dim_nivel_dano_sk_nivel_dano</name>
-        <field>dim_nivel_dano_sk_nivel_dano</field>
+        <name>sk_aerodromo</name>
+        <field>sk_aerodromo</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
-        <name>dim_localizacao_sk_uf</name>
-        <field>dim_localizacao_sk_uf</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>dim_aerodromo_sk_aerodromo</name>
-        <field>dim_aerodromo_sk_aerodromo</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>dim_categoria_voo_sk_categoria_voo</name>
-        <field>dim_categoria_voo_sk_categoria_voo</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>dim_classificacao_sk_ocorrencia</name>
-        <field>dim_classificacao_sk_ocorrencia</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>dim_faixa_de_fatalidade_sk_faixa_de_fatalidade</name>
-        <field>dim_faixa_de_fatalidade_sk_faixa_de_fatalidade</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>dim_tipo_motor_sk_tipo_motor</name>
-        <field>dim_tipo_motor_sk_tipo_motor</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>dim_faixa_de_horario_sk_faixa_horario</name>
-        <field>dim_faixa_de_horario_sk_faixa_horario</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>dim_tempo_sk_tempo</name>
-        <field>dim_tempo_sk_tempo</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>dim_faixa_qtd_motores_sk_faixa_qtd_motores</name>
-        <field>dim_faixa_qtd_motores_sk_faixa_qtd_motores</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>quantidade_ocorrencia</name>
-        <field>quantidade_ocorrencia</field>
+        <name>sk_classificacao</name>
+        <field>sk_classificacao</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
-        <name>dim_aeronave_sk_aeronave</name>
-        <rename>dim_aeronave_sk_aeronave</rename>
+        <name>sk_tipo_ocorrencia</name>
+        <rename>sk_tipo_ocorrencia</rename>
         <update>Y</update>
       </value>
       <value>
-        <name>dim_equipamento_sk_equipamento</name>
-        <rename>dim_equipamento_sk_equipamento</rename>
+        <name>sk_localizacao</name>
+        <rename>sk_localizacao</rename>
         <update>Y</update>
       </value>
       <value>
-        <name>dim_fase_operacao_sk_fase_operacao</name>
-        <rename>dim_fase_operacao_sk_fase_operacao</rename>
+        <name>sk_faixa_horario</name>
+        <rename>sk_faixa_horario</rename>
         <update>Y</update>
       </value>
       <value>
-        <name>dim_fator_contribuinte_sk_fator</name>
-        <rename>dim_fator_contribuinte_sk_fator</rename>
+        <name>sk_tempo</name>
+        <rename>sk_tempo</rename>
         <update>Y</update>
       </value>
       <value>
-        <name>dim_nivel_dano_sk_nivel_dano</name>
-        <rename>dim_nivel_dano_sk_nivel_dano</rename>
+        <name>sk_aerodromo</name>
+        <rename>sk_aerodromo</rename>
         <update>Y</update>
       </value>
       <value>
-        <name>dim_localizacao_sk_uf</name>
-        <rename>dim_localizacao_sk_uf</rename>
+        <name>sk_classificacao</name>
+        <rename>sk_classificacao</rename>
         <update>Y</update>
       </value>
       <value>
-        <name>dim_aerodromo_sk_aerodromo</name>
-        <rename>dim_aerodromo_sk_aerodromo</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>dim_categoria_voo_sk_categoria_voo</name>
-        <rename>dim_categoria_voo_sk_categoria_voo</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>dim_classificacao_sk_ocorrencia</name>
-        <rename>dim_classificacao_sk_ocorrencia</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>dim_faixa_de_fatalidade_sk_faixa_de_fatalidade</name>
-        <rename>dim_faixa_de_fatalidade_sk_faixa_de_fatalidade</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>dim_tipo_motor_sk_tipo_motor</name>
-        <rename>dim_tipo_motor_sk_tipo_motor</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>dim_faixa_de_horario_sk_faixa_horario</name>
-        <rename>dim_faixa_de_horario_sk_faixa_horario</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>dim_tempo_sk_tempo</name>
-        <rename>dim_tempo_sk_tempo</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>dim_faixa_qtd_motores_sk_faixa_qtd_motores</name>
-        <rename>dim_faixa_qtd_motores_sk_faixa_qtd_motores</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>quantidade_ocorrencia</name>
-        <rename>quantidade_ocorrencia</rename>
+        <name>qtd_ocorrencia</name>
+        <rename>qtd_ocorrencia</rename>
         <update>Y</update>
       </value>
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>903</xloc>
-      <yloc>232</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Merge Join</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<join_type>INNER</join_type>
-<step1>aeronave_sort</step1>
-<step2>ocorrencia_sort</step2>
-    <keys_1>
-      <key>codigo_ocorrencia</key>
-    </keys_1>
-    <keys_2>
-      <key>codigo_ocorrencia</key>
-    </keys_2>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>450</xloc>
-      <yloc>220</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Merge Join 2</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<join_type>INNER</join_type>
-<step1>Select values 2</step1>
-<step2>Sort rows 3</step2>
-    <keys_1>
-      <key>codigo_ocorrencia</key>
-    </keys_1>
-    <keys_2>
-      <key>codigo_ocorrencia</key>
-    </keys_2>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>411</xloc>
-      <yloc>437</yloc>
+      <xloc>120</xloc>
+      <yloc>349</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -493,8 +304,7 @@
            <schema_name/>
            </partitioning>
     <fields>        <select_unspecified>N</select_unspecified>
-      <remove>        <name>codigo_ocorrencia_1</name>
-      </remove>      <meta>        <name>horario_utc</name>
+      <meta>        <name>horario_utc</name>
         <rename>horario_utc</rename>
         <type>Date</type>
         <length>-2</length>
@@ -526,7 +336,7 @@
         <storage_type/>
       </meta>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>557</xloc>
+      <xloc>560</xloc>
       <yloc>223</yloc>
       <draw>Y</draw>
       </GUI>
@@ -544,55 +354,17 @@
            <schema_name/>
            </partitioning>
     <fields>        <select_unspecified>N</select_unspecified>
-      <remove>        <name>matricula</name>
-      </remove>      <remove>        <name>equipamento</name>
-      </remove>      <remove>        <name>fabricante</name>
-      </remove>      <remove>        <name>modelo</name>
-      </remove>      <remove>        <name>tipo_motor</name>
-      </remove>      <remove>        <name>quantidade_motores</name>
-      </remove>      <remove>        <name>ano_fabricacao</name>
-      </remove>      <remove>        <name>categoria_registro</name>
-      </remove>      <remove>        <name>categoria_aviacao</name>
-      </remove>      <remove>        <name>fase_operacao</name>
-      </remove>      <remove>        <name>nivel_dano</name>
-      </remove>      <remove>        <name>quantidade_fatalidades</name>
+      <remove>        <name>codigo_ocorrencia</name>
       </remove>      <remove>        <name>classificacao</name>
       </remove>      <remove>        <name>tipo</name>
       </remove>      <remove>        <name>uf</name>
-      </remove>      <remove>        <name>pais</name>
       </remove>      <remove>        <name>aerodromo</name>
       </remove>      <remove>        <name>dia_ocorrencia</name>
       </remove>      <remove>        <name>horario_utc</name>
-      </remove>      <remove>        <name>aeronaves_envolvidas</name>
       </remove>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>280</xloc>
-      <yloc>390</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Select values 3</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>        <select_unspecified>N</select_unspecified>
-      <remove>        <name>codigo_ocorrencia</name>
-      </remove>      <remove>        <name>codigo_ocorrencia_1</name>
-      </remove>      <remove>        <name>fator</name>
-      </remove>      <remove>        <name>aspecto</name>
-      </remove>      <remove>        <name>area</name>
-      </remove>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>738</xloc>
-      <yloc>437</yloc>
+      <xloc>501</xloc>
+      <yloc>346</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -617,7 +389,7 @@
       <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>dim_aeronave_sk_aeronave</name>
+        <name>sk_tempo</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <presorted>N</presorted>
@@ -625,76 +397,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>838</xloc>
-      <yloc>427</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Sort rows 3</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
-      <prefix>out</prefix>
-      <sort_size>1000000</sort_size>
-      <free_memory/>
-      <compress>N</compress>
-      <compress_variable/>
-      <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>codigo_ocorrencia</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>283</xloc>
-      <yloc>494</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>aeronave_sort</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
-      <prefix>out</prefix>
-      <sort_size>1000000</sort_size>
-      <free_memory/>
-      <compress>N</compress>
-      <compress_variable/>
-      <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>codigo_ocorrencia</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>304</xloc>
-      <yloc>83</yloc>
+      <xloc>373</xloc>
+      <yloc>346</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -728,57 +432,15 @@
       </key>
       <value>
         <name>sk_aerodromo</name>
-        <rename>dim_aerodromo_sk_aerodromo</rename>
+        <rename>sk_aerodromo</rename>
         <default>-7</default>
         <type>Integer</type>
       </value>
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>559</xloc>
-      <yloc>66</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>dim_categoria_voo_lookup</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>bd_ocorrencia_aerea</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>dim_categoria_voo</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>categoria_registro</name>
-        <field>sigla_categoria</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>sk_categoria_voo</name>
-        <rename>dim_categoria_voo_sk_categoria_voo</rename>
-        <default>-7</default>
-        <type>Integer</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>559</xloc>
-      <yloc>2</yloc>
+      <xloc>652</xloc>
+      <yloc>346</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -812,117 +474,15 @@
       </key>
       <value>
         <name>sk_ocorrencia</name>
-        <rename>dim_classificacao_sk_ocorrencia</rename>
+        <rename>sk_classificacao</rename>
         <default>-7</default>
         <type>Integer</type>
       </value>
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>677</xloc>
-      <yloc>14</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>dim_equipamento_lookup</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>bd_ocorrencia_aerea</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>dim_equipamento</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>equipamento</name>
-        <field>equipamento</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>fabricante</name>
-        <field>fabricante</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>modelo</name>
-        <field>modelo</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>sk_equipamento</name>
-        <rename>dim_equipamento_sk_equipamento</rename>
-        <default>-7</default>
-        <type>Integer</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>680</xloc>
-      <yloc>92</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>dim_faixa_de_fatalidade_lookup</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>bd_ocorrencia_aerea</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>dim_faixa_de_fatalidade</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>quantidade_fatalidades</name>
-        <field>fatalidade_min</field>
-        <condition>&#x3c;&#x3d;</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>quantidade_fatalidades</name>
-        <field>fatalidade_max</field>
-        <condition>&#x3e;&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>sk_faixa_de_fatalidade</name>
-        <rename>dim_faixa_de_fatalidade_sk_faixa_de_fatalidade</rename>
-        <default>-7</default>
-        <type>Integer</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>686</xloc>
-      <yloc>164</yloc>
+      <xloc>559</xloc>
+      <yloc>35</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -962,153 +522,15 @@
       </key>
       <value>
         <name>sk_faixa_de_horario</name>
-        <rename>dim_faixa_de_horario_sk_faixa_horario</rename>
+        <rename>sk_faixa_horario</rename>
         <default>-7</default>
         <type>Integer</type>
       </value>
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>684</xloc>
-      <yloc>243</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>dim_faixa_qtd_motores_lookup</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>bd_ocorrencia_aerea</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>dim_faixa_qtd_motores</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>quantidade_motores</name>
-        <field>qtd_motores</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>sk_faixa_qtd_motores</name>
-        <rename>dim_faixa_qtd_motores_sk_faixa_qtd_motores</rename>
-        <default>-7</default>
-        <type>Integer</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>673</xloc>
-      <yloc>314</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>dim_fase_operacao_lookup</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>bd_ocorrencia_aerea</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>dim_fase_operacao</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>fase_operacao</name>
-        <field>desc_fase_operacao</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>sk_fase_operacao</name>
-        <rename>dim_fase_operacao_sk_fase_operacao</rename>
-        <default>-7</default>
-        <type>Integer</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>497</xloc>
-      <yloc>331</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>dim_fator_contribuinte_lookup</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>bd_ocorrencia_aerea</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>dim_fator_contribuinte</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>fator</name>
-        <field>fator</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>aspecto</name>
-        <field>aspecto</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>area</name>
-        <field>area</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>sk_fator</name>
-        <rename>dim_fator_contribuinte_sk_fator</rename>
-        <default>-7</default>
-        <type>Integer</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>577</xloc>
-      <yloc>436</yloc>
+      <xloc>803</xloc>
+      <yloc>252</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1142,57 +564,15 @@
       </key>
       <value>
         <name>sk_uf</name>
-        <rename>dim_localizacao_sk_uf</rename>
+        <rename>sk_localizacao</rename>
         <default>-7</default>
         <type>Integer</type>
       </value>
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>384</xloc>
-      <yloc>284</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>dim_nivel_dano_lookup</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>bd_ocorrencia_aerea</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>dim_nivel_dano</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>nivel_dano</name>
-        <field>desc_nivel_dano</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>sk_nivel_dano</name>
-        <rename>dim_nivel_dano_sk_nivel_dano</rename>
-        <default>-7</default>
-        <type>Integer</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>243</xloc>
-      <yloc>314</yloc>
+      <xloc>804</xloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1226,21 +606,21 @@
       </key>
       <value>
         <name>sk_tempo</name>
-        <rename>dim_tempo_sk_tempo</rename>
+        <rename>sk_tempo</rename>
         <default>-7</default>
         <type>Integer</type>
       </value>
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>100</xloc>
-      <yloc>323</yloc>
+      <xloc>806</xloc>
+      <yloc>346</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>dim_tipo_motor_lookup</name>
+    <name>dim_tipo_ocorrencia</name>
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
@@ -1256,27 +636,27 @@
     <cache_size>0</cache_size>
     <lookup>
       <schema/>
-      <table>dim_tipo_motor</table>
+      <table>dim_tipo_ocorrencia</table>
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
       <eat_row_on_failure>N</eat_row_on_failure>
       <key>
-        <name>tipo_motor</name>
-        <field>desc_tipo_motor</field>
+        <name>tipo</name>
+        <field>desc_tipo_ocorrencia</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
-        <name>sk_tipo_motor</name>
-        <rename>dim_tipo_motor_sk_tipo_motor</rename>
+        <name>sk_tipo_ocorrencia</name>
+        <rename>sk_tipo_ocorrencia</rename>
         <default>-7</default>
         <type>Integer</type>
       </value>
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>132</xloc>
-      <yloc>394</yloc>
+      <xloc>560</xloc>
+      <yloc>132</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1316,100 +696,6 @@
     </step>
 
   <step>
-    <name>stg_aeronave_input</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>stg_bd_ocorrencia</connection>
-    <sql>SELECT&#xa; codigo_ocorrencia&#xa;, matricula&#xa;, equipamento&#xa;, fabricante&#xa;, modelo&#xa;, tipo_motor&#xa;, quantidade_motores&#xa;, ano_fabricacao&#xa;, categoria_registro&#xa;, categoria_aviacao&#xa;, fase_operacao&#xa;, nivel_dano&#xa;, quantidade_fatalidades&#xa;FROM stg_aeronave&#xa;</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>104</xloc>
-      <yloc>83</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>stg_aeronave_lookup</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>bd_ocorrencia_aerea</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>dim_aeronave</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>matricula</name>
-        <field>matricula</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>sk_aeronave</name>
-        <rename>dim_aeronave_sk_aeronave</rename>
-        <default>-7</default>
-        <type>Integer</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>559</xloc>
-      <yloc>144</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>stg_fator_contribuinte_input</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>stg_bd_ocorrencia</connection>
-    <sql>SELECT&#xa;  codigo_ocorrencia&#xa;, fator&#xa;, aspecto&#xa;, area&#xa;FROM stg_fator_contribuinte&#xa;</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>123</xloc>
-      <yloc>499</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>stg_ocorrencia _input</name>
     <type>TableInput</type>
     <description/>
@@ -1420,8 +706,8 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>stg_bd_ocorrencia</connection>
-    <sql>SELECT&#xa;  codigo_ocorrencia&#xa;, classificacao&#xa;, tipo&#xa;, uf&#xa;, pais&#xa;, aerodromo&#xa;, dia_ocorrencia&#xa;, horario_utc&#xa;, aeronaves_envolvidas&#xa;FROM stg_ocorrencia&#xa;</sql>
+    <connection>bd_stg_ocorrencia</connection>
+    <sql>SELECT&#xa;  codigo_ocorrencia&#xa;, classificacao&#xa;, tipo&#xa;, uf&#xa;, aerodromo&#xa;, dia_ocorrencia&#xa;, horario_utc&#xa;FROM stg_ocorrencia&#xa;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>

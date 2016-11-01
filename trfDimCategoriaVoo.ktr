@@ -100,11 +100,11 @@
     </attributes>
   </connection>
   <connection>
-    <name>stg_bd_ocorrencia</name>
+    <name>bd_stg_ocorrencia</name>
     <server>192.168.56.1</server>
     <type>MYSQL</type>
     <access>Native</access>
-    <database>stg_bd_ocorrencia</database>
+    <database>bd_stg_ocorrencia</database>
     <port>3306</port>
     <username>dba</username>
     <password>Encrypted 2be98afc86aa7f2e4cb79ce7dc781bed6</password>
@@ -196,6 +196,53 @@
     </step>
 
   <step>
+    <name>Insert &#x2f; Update</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>bd_ocorrencia_aerea</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema/>
+      <table>dim_categoria_voo</table>
+      <key>
+        <name>sk_categoria_voo</name>
+        <field>sk_categoria_voo</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>sk_categoria_voo</name>
+        <rename>sk_categoria_voo</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>sigla_categoria</name>
+        <rename>sigla_categoria</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>Desc_categoria</name>
+        <rename>Desc_categoria</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>882</xloc>
+      <yloc>101</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Select values</name>
     <type>SelectValues</type>
     <description/>
@@ -272,7 +319,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>stg_bd_ocorrencia</connection>
+    <connection>bd_stg_ocorrencia</connection>
     <sql>SELECT&#xa;distinct&#xa; categoria_aviacao&#xa;,categoria_registro&#xa;FROM stg_aeronave&#xa;WHERE categoria_aviacao regexp &#x27;&#x5b;a-z&#x5d;&#x27;&#xa;group by categoria_aviacao</sql>
     <limit>0</limit>
     <lookup/>
@@ -300,7 +347,7 @@
            </partitioning>
       <valuename>sk_categoria_voo</valuename>
       <use_database>N</use_database>
-      <connection>stg_bd_ocorrencia</connection>
+      <connection>bd_stg_ocorrencia</connection>
       <schema/>
       <seqname>SEQ_</seqname>
       <use_counter>Y</use_counter>
@@ -312,53 +359,6 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>400</xloc>
       <yloc>100</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Insert &#x2f; Update</name>
-    <type>InsertUpdate</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>bd_ocorrencia_aerea</connection>
-    <commit>100</commit>
-    <update_bypassed>N</update_bypassed>
-    <lookup>
-      <schema/>
-      <table>dim_categoria_voo</table>
-      <key>
-        <name>sk_categoria_voo</name>
-        <field>sk_categoria_voo</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>sk_categoria_voo</name>
-        <rename>sk_categoria_voo</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>sigla_categoria</name>
-        <rename>sigla_categoria</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>Desc_categoria</name>
-        <rename>Desc_categoria</rename>
-        <update>Y</update>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>882</xloc>
-      <yloc>101</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
